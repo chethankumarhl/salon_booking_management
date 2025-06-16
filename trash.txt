@@ -1,0 +1,212 @@
+/salon-booking
+  /public         -> public-facing pages (index.php, login.php)
+  /admin          -> admin pages (dashboard, manage services/slots)
+  /user           -> user dashboard, appointment pages
+  /includes       -> shared files (db.php, header.php, footer.php)
+  /css            -> stylesheets
+  /js             -> scripts
+  .env            -> environment variables (optional)
+
+/* Reset and basic setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel-container {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  /* overflow: hidden; */
+  position: relative; /* For overlay positioning */
+}
+
+.carousel-inner,
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay, adjust 0.3 for darkness */
+  z-index: 1; /* Ensure it’s on top of the image */
+}
+
+.carousel-item img {
+  position: relative;
+  z-index: 0; /* Behind the overlay */
+}
+
+
+<?php
+include '../includes/db.php';
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Get username from session
+$username = $_SESSION['username'];
+
+// Initialize variables
+$booked_slots = [];
+
+// If form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $mobile = trim($_POST['mobile']);
+    $date = $_POST['date'];
+    $slot_id = $_POST['timeSlot'];  // using slot id as FK
+
+    // Validation
+    if (empty($mobile) || empty($date) || empty($slot_id)) {
+        echo "<div class='alert alert-danger'>Please fill in all fields.</div>";
+    } else {
+        // Fetch user_id from users table
+        $user_sql = "SELECT id FROM users WHERE username = ?";
+        $stmt_user = mysqli_prepare($conn, $user_sql);
+        mysqli_stmt_bind_param($stmt_user, "s", $username);
+        mysqli_stmt_execute($stmt_user);
+        $result_user = mysqli_stmt_get_result($stmt_user);
+
+        if ($row = mysqli_fetch_assoc($result_user)) {
+            $user_id = $row['id'];
+        } else {
+            die("Error: User not found!");
+        }
+        mysqli_stmt_close($stmt_user);
+
+        // Check if slot is already booked for the selected date
+        $check_sql = "SELECT * FROM bookings WHERE date = ? AND slot_id = ? AND status = 'booked'";
+        $stmt = mysqli_prepare($conn, $check_sql);
+        mysqli_stmt_bind_param($stmt, "si", $date, $slot_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            echo "<div class='alert alert-warning'>Sorry, this slot is already booked. Please choose another one.</div>";
+        } else {
+            // Insert booking
+            $insert_sql = "INSERT INTO bookings (user_id, mobile, date, slot_id, status) VALUES (?, ?, ?, ?, 'booked')";
+            $stmt_insert = mysqli_prepare($conn, $insert_sql);
+            mysqli_stmt_bind_param($stmt_insert, "issi", $user_id, $mobile, $date, $slot_id);
+
+            if (mysqli_stmt_execute($stmt_insert)) {
+                echo "<div class='alert alert-success'>Appointment booked successfully for $date!</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Error: " . mysqli_error($conn) . "</div>";
+            }
+
+            mysqli_stmt_close($stmt_insert);
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+}
+
+// If date is selected, fetch booked slots for that date
+if (!empty($_POST['date'])) {
+    $selected_date = $_POST['date'];
+    $slot_sql = "SELECT slot_id FROM bookings WHERE date = ? AND status = 'booked'";
+    $stmt_slots = mysqli_prepare($conn, $slot_sql);
+    mysqli_stmt_bind_param($stmt_slots, "s", $selected_date);
+    mysqli_stmt_execute($stmt_slots);
+    $slot_result = mysqli_stmt_get_result($stmt_slots);
+
+    while ($row = mysqli_fetch_assoc($slot_result)) {
+        $booked_slots[] = $row['slot_id'];
+    }
+
+    mysqli_stmt_close($stmt_slots);
+}
+
+// Fetch all slots to display
+$all_slots = [];
+$slots_sql = "SELECT * FROM slots";
+$slots_result = mysqli_query($conn, $slots_sql);
+
+while ($slot = mysqli_fetch_assoc($slots_result)) {
+    $all_slots[] = $slot;
+}
+?>
+
+
+
+
+
+<?php foreach ($user_slots as $slot): ?>
+                        <?php
+                        $slot_id = $slot['id'];
+                        $start_time = $slot['start_time'];
+                        $end_time = $slot['end_time'];
+                        ?>
+                        
+                    <?php endforeach; ?>
+
+
+
+                    -----------------------------------------------------
+|                Admin Dashboard Navbar             |
+| [Logo]  | Dashboard | Bookings | Slots | Logout   |
+-----------------------------------------------------
+
+| Sidebar (optional)      | Main Content Area       |
+|-------------------------|--------------------------|
+| • Dashboard Overview    | 🔹 Dashboard Metrics     |
+| • Manage Bookings       |   - Total Bookings       |
+| • Manage Slots          |   - Available Slots      |
+| • Manage Users          |   - Users Registered     |
+|                         |   - Revenue Stats        |
+|-------------------------|--------------------------|
+
+|➡ [Bookings Page]                                 |
+|--------------------------------------------------|
+| 📅 Filter by Date | ⌨ Search by User             |
+|--------------------------------------------------|
+| ID | User Name | Date | Time | Status | Actions |
+|----|-----------|------|------|--------|---------|
+| 01 | John Doe  | ...  | ...  | Booked | [Edit] [Delete] |
+| 02 | Jane Doe  | ...  | ...  | Done   | [Edit] [Delete] |
+
+|➡ [Slots Page]                                    |
+|--------------------------------------------------|
+| ➕ Add New Slot (Date, Time, Max Limit)           |
+|--------------------------------------------------|
+| Slot ID | Date | Time | Max | Booked | Actions   |
+|--------|------|------|-----|--------|-----------|
+| 1      | ...  | ...  | 10  | 4      | [Edit][Delete] |
+
+|➡ [Users Page]                                     |
+|---------------------------------------------------|
+| ID | Name | Email | Phone | Registered Date | ...|
+|---------------------------------------------------|
+
+|➡ [Reports/Analytics Page]                         |
+|---------------------------------------------------|
+| 📊 Bar/Line Charts: Bookings Per Day, Revenue     |
+| ⏳ Peak Hours/Days                                 |
+| 💬 Feedback Summary (if added)                    |
+-----------------------------------------------------

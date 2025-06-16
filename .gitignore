@@ -1,0 +1,51 @@
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+/vendor/
+node_modules/
+
+# Environment/config files
+.env
+.env.*
+config.php
+includes/db.php  # <-- your DB connection file, even if no password
+
+# Logs/cache/sessions
+*.log
+*.cache
+*.tmp
+/storage/
+sessions/
+logs/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime-*
+
+# Uploads or generated files
+uploads/
+public/uploads/
+assets/uploads/
+
+# Testing/output
+coverage/
+phpunit.xml
+
+# Build/output directories
+dist/
+build/
+
+# Database dumps or SQLite
+*.sql
+*.sqlite
+*.db
+
+# Backup and temp files
+*.bak
+*.swp
+*.old
+*.zip
+*.tar.gz

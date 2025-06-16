@@ -1,0 +1,336 @@
+
+/* Navbar over the carousel */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.3) !important; /* Semi-transparent black */
+  }
+  
+  /* Ensure carousel fills full viewport height */
+  .carousel, .carousel-inner, .carousel-item {
+    height: 100vh;
+  }
+  
+  /* Center carousel captions */
+  .carousel-caption {
+    top: 70%;
+    transform: translateY(-50%);
+    
+  }
+.carousel-item img{
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay, adjust 0.3 for darkness */
+  z-index: 1; /* Ensure it’s on top of the image */
+}
+ /* Full-height carousel */
+  .carousel, .carousel-inner, .carousel-item {
+    height: 100vh;
+  }
+  
+  /* Fade-In Animation */
+  .fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-50%) translateX(-30px); }
+    to { opacity: 1; transform: translateY(-50%) translateX(0); }
+  }
+  
+  /* Text Styling (No Background) */
+  .carousel-caption {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  
+  .carousel-caption h2 {
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+  }
+  
+  .carousel-caption p {
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  }
+
+.carousel {
+  position: relative;
+}
+
+  h1.our-services-heading {
+    /* font-family: 'Playfair Display', serif; Elegant serif font */
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+  h1.our-services-heading:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: #d4af37; /* Gold accent line */
+    bottom: -10px;
+    left: 25%;
+  }
+
+  /* Consistent Image Sizing */
+  .service-card img {
+    width: 100%;
+    height: 250px; /* Fixed height */
+    object-fit: cover; /* Ensures images fill space without distortion */
+    border-radius: 8px 8px 0 0 !important;
+  }
+
+  /* Card Styling */
+  .service-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  .service-card-body {
+    padding: 20px;
+    flex-grow: 1;
+  }
+  .service-card h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #333;
+  }
+  .linking {
+    color: #d4af37;
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+  }
+  .linking:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #d4af37;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s;
+  }
+  .linking:hover:after {
+    width: 100%;
+  }
+
+h1{
+   opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.3s;
+}  /* Fade-in animation for service cards */
+.our-service-heading{
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+.service-7 .row{
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.3s;
+}
+
+
+
+.service-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+
+
+/* slot cards animation */ 
+
+/* Fade-in animation for slot cards */
+.slot-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Staggered animation delays for slot cards */
+#slots .slot-card:nth-child(1) { animation-delay: 0.2s; }
+#slots .slot-card:nth-child(2) { animation-delay: 0.4s; }
+#slots .slot-card:nth-child(3) { animation-delay: 0.6s; }
+#slots .slot-card:nth-child(4) { animation-delay: 0.8s; }
+/* Add more if you expect more cards */
+/* Individual card delays for staggered effect */
+.service-card:nth-child(1) { animation-delay: 0.4s; }
+.service-card:nth-child(2) { animation-delay: 0.6s; }
+.service-card:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* General form styling */
+form {
+  margin: 0 auto; /* Center horizontally */
+  margin-left: 20px; /* Adjust as needed */
+  max-width: 500px; /* Max width to keep it manageable on large screens */
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Style for the date input */
+form #date {
+  display: block;
+  width: 100%; /* Responsive width */
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Center placeholder text for date input */
+form #date::placeholder {
+  text-align: center;
+}
+
+/* Center placeholder text for other inputs like #user */
+form #user {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+form #user::placeholder {
+  text-align: center;
+}
+
+/* Make inputs responsive */
+form input[type="text"],
+form input[type="date"],
+form input[type="submit"],
+form button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* General */
+body {
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Carousel text responsiveness */
+.carousel-caption h2 {
+  font-size: 2rem;
+}
+.carousel-caption p {
+  font-size: 1rem;
+}
+@media (max-width: 768px) {
+  .carousel-caption h2 {
+    font-size: 1.5rem;
+  }
+  .carousel-caption p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Appointments section */
+.card {
+  min-height: 100px;
+}
+@media (max-width: 768px) {
+  .card {
+    min-height: auto;
+  }
+}
+
+/* Service cards images */
+.service-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+.service-card-body {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* About us section */
+.about-us {
+  flex-direction: column;
+}
+.about-us img {
+  width: 100%;
+  height: auto;
+}
+@media (min-width: 768px) {
+  .about-us {
+    flex-direction: row;
+    align-items: center;
+  }
+  .about-us img {
+    width: 300px;
+    height: auto;
+  }
+}
+
+/* Booking form adjustments */
+#booking-form {
+  width: 100%;
+  max-width: 500px;
+  margin: 1rem auto;
+}
+#booking-form input[type="text"],
+#booking-form input[type="number"],
+#booking-form input[type="date"] {
+  text-align: center;
+}
+textarea.form-control {
+    resize: none;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.card {
+    border-radius: 16px;
+    transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+    transform: scale(1.01);
+}
+
+/* Footer spacing fix */
+footer .container {
+  padding: 1rem;
+}
+footer h6 {
+  font-size: 1rem;
+}
+footer p {
+  font-size: 0.9rem;
+}
