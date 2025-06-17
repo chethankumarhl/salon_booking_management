@@ -57,29 +57,27 @@ This project enables:
 ├── .gitignore
 └── README.md
 
-yaml
-Copy
-Edit
+
 
 ## 🧪 How to Run Locally
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/salon-management-webapp.git
-   cd salon-management-webapp
+   git clone https://github.com/chethankumarhl/salon_booking_management.git
+   cd salon_booking_management
 
-Set up a local server using XAMPP:
+2. Set up a local server using XAMPP:
 
-Place the project in the htdocs/ folder.
+3. Place the project in the htdocs/ folder.
 
-Start Apache and MySQL.
+4. Start Apache and MySQL.
 
-Import the database:
+5. Import the database:
 
-Open phpMyAdmin at localhost/phpmyadmin
+6. Open phpMyAdmin at localhost/phpmyadmin
 
-Create a database and import the provided .sql file (if available).
+7. Create a database and import the provided .sql file (if available).
 
-Access the app:
+## Access the app:
 
 http://localhost/salon-management-webapp/public
